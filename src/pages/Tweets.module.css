@@ -1,0 +1,10 @@
+.back {
+  position: absolute;
+  top: 0;
+  left: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  font-size: 24px;
+  color: #4568dc;
+}

@@ -7,9 +7,9 @@ import { Outlet } from 'react-router-dom';
 export const SharedLayout = () => {
   return (
     <>
+      <Header />
       <section className={css.container}>
         {' '}
-        <Header />
         <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>

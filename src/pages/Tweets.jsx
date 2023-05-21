@@ -1,7 +1,9 @@
+import css from './Tweets.module.css';
 import { LoadMore } from 'components/LoadMore/LoadMore';
 import Loader from 'components/Loader/Loader';
 import { UsersList } from 'components/UsersList/UsersList';
 import { fetchUsers, updateUser } from 'components/services/fetchUsers';
+import { Link } from 'react-router-dom';
 const { useState, useEffect } = require('react');
 
 const Tweets = () => {
@@ -37,13 +39,21 @@ const Tweets = () => {
   };
 
   const handleLoadMore = () => {
-    setPage(prevPage => prevPage + 1);
+    if (page === 8) {
+      return setLoadMore(false);
+    } else {
+      setPage(prevPage => prevPage + 1);
+    }
   };
   return (
     <>
       {isLoading && <Loader />}
+      <Link to="/" className={css.back}>
+        {' '}
+        Back{' '}
+      </Link>
       {users && <UsersList users={users} handleFollow={handleFollow} />}
-      {users.length < 12 && loadMore && <LoadMore onClick={handleLoadMore} />}
+      {loadMore && <LoadMore onClick={handleLoadMore} />}
     </>
   );
 };
