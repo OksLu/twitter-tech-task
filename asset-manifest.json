@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/twitter-tech-task/static/css/main.9c401091.css",
-    "main.js": "/twitter-tech-task/static/js/main.eefc251f.js",
+    "main.js": "/twitter-tech-task/static/js/main.7673fe10.js",
     "static/media/picture2 1.png": "/twitter-tech-task/static/media/picture2 1.032662a2a907475127d7.png",
     "index.html": "/twitter-tech-task/index.html",
     "main.9c401091.css.map": "/twitter-tech-task/static/css/main.9c401091.css.map",
-    "main.eefc251f.js.map": "/twitter-tech-task/static/js/main.eefc251f.js.map"
+    "main.7673fe10.js.map": "/twitter-tech-task/static/js/main.7673fe10.js.map"
   },
   "entrypoints": [
     "static/css/main.9c401091.css",
-    "static/js/main.eefc251f.js"
+    "static/js/main.7673fe10.js"
   ]
 }
