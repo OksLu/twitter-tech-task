@@ -12,10 +12,6 @@ const Home = () => {
           perspiciatis iste architecto dolorem quod repudiandae illum porro.
           Cum, quod!
         </p>
-        <button>
-          <Link to="tweets" />
-          Get Started
-        </button>
       </div>
     </div>
   );
