@@ -1,22 +1,18 @@
 import { Link } from 'react-router-dom';
 import logo from '../../images/Logo.png';
 import css from './UserCard.module.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const UserCard = ({ data, handleFollow }) => {
   const { id, user, avatar, tweets, followers } = data;
 
-  const [follow, setFollow] = useState(() => {
-    return JSON.parse(window.localStorage.getItem('follow'));
+  const [isFollowing, setIsFollowing] = useState(() => {
+    return JSON.parse(window.localStorage.getItem(id));
   });
 
-  useEffect(() => {
-    window.localStorage.setItem('follow', JSON.stringify(follow));
-  }, [follow]);
-
   const onClick = () => {
-    setFollow(!follow);
-    handleFollow(id, follow);
+    setIsFollowing(!isFollowing);
+    handleFollow(id, isFollowing);
   };
   return (
     <li className={css.item}>
@@ -29,7 +25,7 @@ export const UserCard = ({ data, handleFollow }) => {
         </span>
         <p className={css.info}>{tweets} TWEETS</p>
         <p className={css.info}>{followers} FOLLOWERS</p>
-        {follow ? (
+        {isFollowing ? (
           <button
             className={css.followingBtnActive}
             onClick={() => onClick(id)}

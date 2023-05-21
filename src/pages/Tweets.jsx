@@ -24,6 +24,10 @@ const Tweets = () => {
   }, [page]);
 
   const handleFollow = (userId, isFollowing) => {
+    window.localStorage.setItem(
+      'follow',
+      JSON.stringify({ userId, isFollowing })
+    );
     const activeUsers = users.map(user => {
       if (user.id === userId) {
         const updatedUser = {
@@ -31,6 +35,9 @@ const Tweets = () => {
           followers: user.followers + (isFollowing ? -1 : 1),
         };
         updateUser(user.id, { followers: updatedUser.followers });
+        const saved = JSON.stringify(isFollowing ? false : true);
+        window.localStorage.setItem(userId, saved);
+
         return updatedUser;
       }
       return user;
