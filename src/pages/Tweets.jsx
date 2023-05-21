@@ -1,60 +1,49 @@
+import { LoadMore } from 'components/LoadMore/LoadMore';
 import Loader from 'components/Loader/Loader';
 import { UsersList } from 'components/UsersList/UsersList';
 import { fetchUsers, updateUser } from 'components/services/fetchUsers';
-const { useState, useEffect, useReducer } = require('react');
-
-const initialState = {
-  isLoading: false,
-  users: null,
-  error: null,
-};
-function reducer(state, action) {
-  switch (action.type) {
-    case 'fetch':
-      return {
-        users: action.payload,
-        isLoading: false,
-        error: null,
-      };
-    case 'follow':
-      return {
-        users: state.users.map(user => {
-          if (user.id === action.payload) {
-            user.followers += 1;
-            console.log(user.followers);
-            user.isFollowing = true;
-          }
-          return user;
-        }),
-      };
-    case 'unfollow':
-      return {};
-    default:
-      return;
-  }
-}
+const { useState, useEffect } = require('react');
 
 const Tweets = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [loadMore, setLoadMore] = useState(true);
 
   useEffect(() => {
-    fetchUsers(page).then(response =>
-      dispatch({ type: 'fetch', payload: response.data })
-    );
+    setIsLoading(true);
+    setLoadMore(false);
+
+    fetchUsers(page).then(newUsers => {
+      setUsers(prevState => [...prevState, ...newUsers]);
+      setIsLoading(false);
+      setLoadMore(true);
+    });
   }, [page]);
 
-  const handleFollowBtn = e => {
-    e.preventDefault();
-    const userId = e.currentTarget.id;
-    dispatch({ type: 'follow', payload: userId });
-    // updateUser(userId);
+  const handleFollow = (userId, isFollowing) => {
+    const activeUsers = users.map(user => {
+      if (user.id === userId) {
+        const updatedUser = {
+          ...user,
+          followers: user.followers + (isFollowing ? -1 : 1),
+        };
+        updateUser(user.id, { followers: updatedUser.followers });
+        return updatedUser;
+      }
+      return user;
+    });
+    setUsers(activeUsers);
+  };
+
+  const handleLoadMore = () => {
+    setPage(prevPage => prevPage + 1);
   };
   return (
     <>
-      {state.users && (
-        <UsersList users={state.users} handleFollowBtn={handleFollowBtn} />
-      )}
+      {isLoading && <Loader />}
+      {users && <UsersList users={users} handleFollow={handleFollow} />}
+      {users.length < 12 && loadMore && <LoadMore onClick={handleLoadMore} />}
     </>
   );
 };
